@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.dxctraining.bootmvcjpa.wishlistmgt.entities.WishedItem;
+import com.dxctraining.bootmvcjpa.wishlistmgt.exceptions.InvalidArgumentException;
 
+import org.junit.jupiter.api.function.Executable;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Import(WishedItemServiceImpl.class)
@@ -19,9 +21,14 @@ class WishedItemServiceImplTest {
 	@Autowired
 	private IWishedItemService service;
 	
-	
 	@Test
 	public void testAdd_1() {
+		Executable execute = () -> service.save(null);
+		Assertions.assertThrows(InvalidArgumentException.class, execute);
+	}
+
+	@Test
+	public void testAdd_2() {
 		int custId = 1;
 		String prodId = "658";
 		WishedItem wishedItem = new WishedItem(custId,prodId);

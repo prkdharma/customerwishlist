@@ -20,9 +20,9 @@ public class WishedItemServiceImpl implements IWishedItemService{
     
     @Override
     public WishedItem save(WishedItem wishedItem) {
+        validate(wishedItem);
     	String id = generateId();
     	wishedItem.setId(id);
-        validate(wishedItem);
         wishedItem=dao.save(wishedItem);
         return wishedItem;
     }
